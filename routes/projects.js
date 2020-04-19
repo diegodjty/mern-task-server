@@ -12,9 +12,24 @@ router.post('/',
     ],
     projectController.createProjects
 )
+// Get projects
 router.get('/',
     auth,
-    projectController.createProjects
+    projectController.getProjects
+)
+
+//Update projects
+router.put('/:id',
+    auth,
+    [
+        check('name','The name is required').not().isEmpty() 
+    ],
+    projectController.updateProject
+)
+// Delete projects
+router.delete('/:id',
+    auth,
+    projectController.deleteProject
 )
 
 module.exports = router;
