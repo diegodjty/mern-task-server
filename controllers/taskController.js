@@ -61,3 +61,41 @@ exports.getTask = async (req, res) =>{
         res.status(500).send('An error occured')
     }
 }
+
+exports.updateTask = async (req,res) =>{
+
+    try {
+
+        // Extrack project and check if exist
+        const {project,name,status} = req.body
+
+        // Check if task exist
+        let task = await Task.findById(req.params.id);
+
+        if(!task){
+            return res.status(404).json({msg: 'Task dosnt exist'})
+        }
+
+        const projectExist = await Project.findById(project);
+        
+
+        //Verify project creator
+        if(projectExist.creator.toString()!== req.user.id){
+            return res.status(401).json({msg: 'Not authorized'})
+        }
+
+        // Create object with new info
+        const newTask = {};
+
+        if(name)newTask.name = name;
+        if(status)newTask.status = status;
+
+        // Save Task
+        task = await Task.findOneAndUpdate({_id: req.params.id}, newTask, {new: true})
+        res.json({task})
+        
+    } catch (error) {
+        res.status(500).send('An error ocured')
+    }
+
+}
