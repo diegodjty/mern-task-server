@@ -99,3 +99,30 @@ exports.updateTask = async (req,res) =>{
     }
 
 }
+
+//Delete task
+exports.deleteTask = async(req,res) =>{
+
+     // Extrack project and check if exist
+     const {project,name,status} = req.body
+
+     // Check if task exist
+     let task = await Task.findById(req.params.id);
+
+     if(!task){
+         return res.status(404).json({msg: 'Task dosnt exist'})
+     }
+
+     const projectExist = await Project.findById(project);
+     
+
+     //Verify project creator
+     if(projectExist.creator.toString()!== req.user.id){
+         return res.status(401).json({msg: 'Not authorized'})
+     }
+
+     // Delete
+     await Task.findOneAndRemove({_id: req.params.id})
+     res.json({msg: 'Task deleted'})
+
+}
