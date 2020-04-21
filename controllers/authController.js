@@ -55,3 +55,15 @@ exports.authUser = async (req,res) =>{
     }
 
 }
+
+exports.authUser = async (req, res) =>{
+
+    try {
+
+        const user = await User.findById(req.user.id).select('-password')
+        res.json({user})
+    } catch (error) {
+        console.log()
+        res.status(500).json({msg:'An error occured'})
+    }
+}
