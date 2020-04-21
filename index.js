@@ -1,6 +1,6 @@
 const express = require('express');
 const conectDB = require('./config/db')
-
+const cors = require('cors');
 // Create server
 const app = express();
 
@@ -9,6 +9,9 @@ conectDB();
 
 // Enable express.json
 app.use( express.json({ extended: true}));
+
+// Enable cors
+app.use(cors())
 
 // App port
 const PORT = process.env.PORT || 4000;
@@ -22,5 +25,5 @@ app.use('/api/tasks', require('./routes/tasks'));
 
 // start app
 app.listen(PORT,()=>{
-    // console.log(`port is working on port ${PORT}`)
+    console.log(`port is working on port ${PORT}`)
 })
