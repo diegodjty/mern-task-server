@@ -6,16 +6,13 @@ const authController = require('../controllers/authController')
 const auth = require('../middleware/auth')
 // Create a user
 // api/auth
-router.post('/',
-[
-    check('email', 'Add a valid email').isEmail(),
-    check('password', 'The Passwrod needs to be 6 characters lenght').isLength({min:6})
-],
-authController.authUser)
 
+router.post('/',
+    authController.authUser
+)
 router.get('/',
     auth,
-    authController.authUser
+    authController.getUser
 )
 
 module.exports = router;

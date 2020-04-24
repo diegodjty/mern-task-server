@@ -9,7 +9,7 @@ router.post('/',
 [
     check('name','Name is required').not().isEmpty(),
     check('email', 'Add a valid email').isEmail(),
-    check('password', 'The Passwrod needs to be 6 characters lenght').isLength({min:6})
+    check('password', 'The Password needs to be 6 characters lenght').isLength({min:6})
 ],
 userController.createUser)
 
